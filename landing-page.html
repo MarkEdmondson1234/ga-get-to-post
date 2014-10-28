@@ -1,0 +1,33 @@
+<html>
+<head>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51281463-1', 'auto', {'clientId': {{clientId}} });
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+<body>
+<h1>A landing page</h1>
+<p>This page should be linked to with normal GA campaign parameters, plus ?cid=auserID</p>
+<p>User visits will then be linked with image views of </p>
+
+<div onclick="getGAClientID()">Click me</div>
+<script>
+
+getGAClientID = function(){
+
+	ga(function(tracker) {
+		var clientId = tracker.get('clientId')
+		console.log(clientId)
+	});
+}
+
+</body>
+</html>
