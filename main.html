@@ -1,14 +1,23 @@
 <html>
 <ul>
 <li>{{ data }}</li>
-<li>{{ output}}</li>
 </ul>
-Test <a href="/main.png?v=1&tid=UA-51281463-1&cid=CLIENT_ID_NUMBER&t=event&ec=email&ea=open&el=recipient_id&cs=newsletter&cm=email&cn=Campaign_Name">Click</a>
-
 <a href="/upload-image">Upload Image</a>
 
 Current Image:
 <img src="/main.png?v=1&tid=UA-51281463-1&cid=CLIENT_ID_NUMBER&t=event&ec=email&ea=open&el=recipient_id&cs=test&cm=page_view_but_open&cn=test_page" />
 End Image
+
+Image URL: http://gapost-wunderman.appspot.com/main.png?v=1&tid=UA-51281463-1&cid=blah&t=event&ec=email&ea=open&el=recipient_id&cs=newsletter&cm=email&cn=Campaign_Name 
+
+A click in the email should go to:
+
+http://gapost-wunderman.appspot.com/landing-page?cid=blah + utm parameters 
+
+eg:
+
+http://gapost-wunderman.appspot.com/landing-page?cid=blah&utm_source=source_me&utm_medium=medium_me&utm_campaign=campaign_me
+
+Build more in the <a href='https://support.google.com/analytics/answer/1033867?hl=en'>URL Builder</a>
 
 </html>
