@@ -84,34 +84,39 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
   """The image that is in the email, and has a unique ID attached to it"""
 
   def get(self):
-        v   = cgi.escape(self.request.get('v'))
-        tid = cgi.escape(self.request.get('tid'))
+        p   = cgi.escape(self.request.get('p'))
+        c   = cgi.escape(self.request.get('c'))
         cid = cgi.escape(self.request.get('cid'))
-        t   = cgi.escape(self.request.get('t'))
-        ec  = cgi.escape(self.request.get('ec'))
-        ea  = cgi.escape(self.request.get('ea'))
-        el  = cgi.escape(self.request.get('el'))
-        cs  = cgi.escape(self.request.get('cs'))
-        cm  = cgi.escape(self.request.get('cm'))
-        cn  = cgi.escape(self.request.get('cn'))
 
         ## if it has the same seed, creates an id like xxxx-xxxx-xxxx-xxxx
         cid = getUniqueClientId(cid)
 
         ## construct the Measurement Protocol call
         ga_url_stem = "http://www.google-analytics.com/collect"
-        values = {'v'   : v,
-                  'tid' : tid,
-                  'cid' : cid,
-                  't'   : t,
-                  'ec'  : ec,
-                  'ea'  : ea,
-                  'el'  : el,
-                  'cs'  : cs,
-                  'cm'  : cm,
-                  'cn'  : cn,
-                  ### z is the cache buster
-                  'z'   : str(random.randint(1,999999)).zfill(6) }
+
+        ## refer to https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
+        values = {'v'   : 1,
+                  'tid' : 'UA-51281463-1',
+                  'cid' : cid}
+        if p:
+          values['t']  = 'pageview'
+          values['dh'] = 'external_email'
+          values['ec'] = 'email'
+          values['ea'] = 'open'
+
+        else:
+          values['t']  = 'event'
+          values['ec'] = 'email'
+          values['ea'] = 'open'
+
+        if c:
+          values['el'] = c
+          values['dp'] = '/vpv/email-view/' + c
+        else:
+          values['el'] = "campaign_name"
+          values['dp'] = '/vpv/email-view'
+        ### z is the cache buster
+        values['z'] = str(random.randint(1,999999)).zfill(6)
 
         ### send the hit to Google
         data = urllib.urlencode(values)

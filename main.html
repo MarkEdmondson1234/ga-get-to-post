@@ -5,7 +5,8 @@
 <p>To use:</p>
 <ol>
 	<li>Upload an image you would like to appear.  This can be any .png, including a 1x1 pixel.</li>
-	<li>Construct the URL for the event you would like to track (this can be improved for usability later, but an example is below)</li>
+	<li>Construct the URL for the event you would like to track. cid=uniqueId, if you include p=1 it will track as a virtual pageview (so be able to be used in GA funnels), c=campaign name<li>
+	<li>If you use p=1, it will record opens under '/vpv/email-view/' (+ campaign from c if present)</li>
 	<li>The cid parameter will construct the anonymous ID for GA to link sessions together.  It can be text or a number. An email address works - example: cid=mark@wunderman.com</li>
 	<li>Put that URL as where the image is loaded from.  It has to "hotlink" the image, if it loads via a CDN it won't work (e.g. if you load the image into Twitter, Facebook etc. they save it on their own servers</li>
 	<li>Every view of that image URL will result in a hit in GA.  Send it in an email.</li>
@@ -17,8 +18,8 @@
 </p>
 <a href="/upload-image">Upload New Image</a>
 
-<h2>Example Image URL with event data with cid=blah</h2>
-<p>http://gapost-wunderman.appspot.com/main.png?v=1&tid=UA-51281463-1&cid=blah&t=event&ec=email&ea=open&el=email_content</p>
+<h2>Example Image URL with event data with cid=blah, virtual pageviews (p=1) and email_campaign for the open (recorded as an event label)</h2>
+<p>http://gapost-wunderman.appspot.com/main.png?cid=blah&p=1&c=email_campaign</p>
 
 <h2>Example URL for links in the email for same user, cid=blah</h2>
 
