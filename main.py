@@ -63,10 +63,10 @@ class BlobStoreHandler(blobstore_handlers.BlobstoreUploadHandler):
         pixel.img = blob_info.key()
         pixel.put()
 
-        self.redirect('/upload-image')
+        self.redirect('/main.html')
 
 class LandingPage(webapp2.RequestHandler):
-  """Example page where content is - utm parameters shoudl be used plus cid which will link the impression and visit """
+  """Example page where content is - utm parameters should be used plus cid which will link the impression and visit """
 
   def get(self):
 
@@ -127,8 +127,6 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
         ### serve up image
         if pixel:
           img = blobstore.BlobInfo.get(pixel.img)
-          # self.response.headers['Content-Type'] = 'image/png'
-          # self.response.out.write(img)
           self.send_blob(img)
         else:
           self.response.out.write("no image")
@@ -139,41 +137,7 @@ class MainPage(webapp2.RequestHandler):
 
     def get(self):
 
-        v   = cgi.escape(self.request.get('v'))
-        tid = cgi.escape(self.request.get('tid'))
-        cid = cgi.escape(self.request.get('cid'))
-        t   = cgi.escape(self.request.get('t'))
-        ec  = cgi.escape(self.request.get('ec'))
-        ea  = cgi.escape(self.request.get('ea'))
-        el  = cgi.escape(self.request.get('el'))
-        cs  = cgi.escape(self.request.get('cs'))
-        cm  = cgi.escape(self.request.get('cm'))
-        cn  = cgi.escape(self.request.get('cn'))
-
-        ga_url_stem = "http://www.google-analytics.com/collect"
-
-        values = {'v'   : v,
-                  'tid' : tid,
-                  'cid' : cid,
-                  't'   : t,
-                  'ec'  : ec,
-                  'ea'  : ea,
-                  'el'  : el,
-                  'cs'  : cs,
-                  'cm'  : cm,
-                  'cn'  : cn }
-
-        data = urllib.urlencode(values)
-        req = urllib2.Request(ga_url_stem, data)
-        response = urllib2.urlopen(req)
-        the_page = response.read()
-
-        print data, req, response, the_page
-
-
-        template_values = {
-           'data': data
-        }
+        template_values = {}
 
         template = JINJA_ENVIRONMENT.get_template('main.html')
         self.response.write(template.render(template_values))
