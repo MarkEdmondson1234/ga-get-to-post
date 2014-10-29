@@ -72,6 +72,8 @@ class LandingPage(webapp2.RequestHandler):
 
         cid   = cgi.escape(self.request.get('cid'))
         clientId = getUniqueClientId(cid)
+
+        print clientId
       
         template_values = {'clientId' : clientId}
 
@@ -116,6 +118,8 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
         req = urllib2.Request(ga_url_stem, data)
         response = urllib2.urlopen(req)
         the_page = response.read()
+
+        print values
 
         ### get the image upload previously done at /form.html and stored in datastore
         pixel = Pixel.get_by_id("image")
