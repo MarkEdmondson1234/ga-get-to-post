@@ -84,9 +84,10 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
   """The image that is in the email, and has a unique ID attached to it"""
 
   def get(self):
-        p   = cgi.escape(self.request.get('p'))
-        c   = cgi.escape(self.request.get('c'))
-        cid = cgi.escape(self.request.get('cid'))
+        p      = cgi.escape(self.request.get('p'))
+        c      = cgi.escape(self.request.get('c'))
+        cid    = cgi.escape(self.request.get('cid'))
+        nohit = cgi.escape(self.request.get('nohit'))
 
         ## if it has the same seed, creates an id like xxxx-xxxx-xxxx-xxxx
         cid = getUniqueClientId(cid)
@@ -118,11 +119,12 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
         ### z is the cache buster
         values['z'] = str(random.randint(1,999999)).zfill(6)
 
-        ### send the hit to Google
-        data = urllib.urlencode(values)
-        req = urllib2.Request(ga_url_stem, data)
-        response = urllib2.urlopen(req)
-        the_page = response.read()
+        if not nohit:
+          ### send the hit to Google
+          data = urllib.urlencode(values)
+          req = urllib2.Request(ga_url_stem, data)
+          response = urllib2.urlopen(req)
+          the_page = response.read()
 
         print values
 
