@@ -6,20 +6,21 @@
 <ol>
 	<li>Upload an image you would like to appear.  This can be any .png, including a 1x1 pixel.</li>
 	<li>Construct the URL for the event you would like to track. cid=uniqueId, if you include p=1 it will track as a virtual pageview (so be able to be used in GA funnels), c=campaign name</li>
-	<li>If you use p=1, it will record opens under '/vpv/email-view/' (+ campaign from c if present)</li>
+	<li>If you use p=1, it will record opens under '/vpv/email-view/' (+ campaign from c if present).  This makes you able to use the GA Goal funnel reports to report performance.</li>
 	<li>If you use nohit=1, it will not record an email view (used for displaying the image below without triggering a email view, for example)</li>
-	<li>The cid parameter will construct the anonymous ID for GA to link sessions together.  It can be text or a number. An email address works - example: cid=mark@wunderman.com</li>
-	<li>Put that URL as where the image is loaded from.  It has to "hotlink" the image, if it loads via a CDN it won't work (e.g. if you load the image into Twitter, Facebook etc. they save it on their own servers</li>
+	<li>The cid parameter will construct the anonymous ID for GA to link sessions together.  It can be text or a number. An email address works - example: cid=mark.edmondson@wunderman.com</li>
+	<li>Put that URL as where the image is loaded from.  It has to "hotlink" the image, if it loads via a CDN it won't work e.g. if you load the image into Twitter, Facebook etc. they save it on their own servers</li>
 	<li>Every view of that image URL will result in a hit in GA.  Send it in an email.</li>
 	<li>To link sessions, the landing page should be setup to accept the cid.  An example is available at <a href="/landing-page">this location</a></li>
 	<li>Any links in the email (or the image) that land on the landing page with the same cid as above (e.g. cid=mark@edmondson.com) will be linked to the image view session.  Put utm_campaign etc. parameters on there as well if you like</li>
+	<li>You may want to filter the cid parameter in the UA settings as it is probably PII</li>
 </ol>
 <p>The Current Image:
 <img src="/main.png?nohit=1">
 </p>
 <a href="/upload-image">Upload New Image</a>
 
-<h2>Example Image URL with event data with cid=blah, virtual pageviews (p=1) and email_campaign for the open (recorded as an event label)</h2>
+<h2>Example Image URL with event data, cid=blah, virtual pageviews (p=1) and email_campaign as an event label and pageview: /vpv/email-view/email_campaign</h2>
 <p>http://gapost-wunderman.appspot.com/main.png?cid=blah&p=1&c=email_campaign</p>
 
 <h2>Example URL for links in the email for same user, cid=blah</h2>
