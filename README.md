@@ -21,13 +21,21 @@ Applications include email tracking and affiliate sales tracking.
 
 ## Upload New Image
 
-Example Image URL with event data with cid=blah, virtual pageviews (p=1) and email_campaign for the open (recorded as an event label)
+- Example Image URL with event data with cid=blah, virtual pageviews (p=1) and email_campaign for the open (recorded as an event label)
 
+```
 http://gapost-wunderman.appspot.com/main.png?cid=blah&p=1&c=email_campaign
-Example URL for links in the email for same user, cid=blah
+```
 
+- Example URL for links in the email for same user, cid=blah
+
+```
 http://gapost-wunderman.appspot.com/landing-page?cid=blah + utm parameters
-....example full click URL
+```
 
+- Example full click URL with campaign parameters and cid
+
+```
 http://gapost-wunderman.appspot.com/landing-page?cid=blah&utm_source=source_me&utm_medium=medium_me&utm_campaign=campaign_me
+```
 
