@@ -100,7 +100,7 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
         if c: ## put campaign info in the pageview
           values['el'] = c
           values['dp'] = '/vpv/email-view/' + c
-        else: ## put campaign info in the event labels
+        else: ## default campaign info
           values['el'] = "campaign_name"
           values['dp'] = '/vpv/email-view'
         ### z is the cache buster
