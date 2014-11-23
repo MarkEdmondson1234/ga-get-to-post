@@ -13,7 +13,7 @@ Applications include email tracking and affiliate sales tracking.
 
 * Upload an image you would like to appear. This can be any .png, including a 1x1 pixel.
 * Construct the URL for the event you would like to track. 
-* If you use p=1, it will record opens under '/vpv/email-view/' (+ campaign from c if present)
+* If you use p=1, it will record opens under '/vpv/email-view/' (+ campaign from c if present).  This lets you use it in GA funnels.
 * c=campaign name, which will record in the pageview or event label
 * If you use nohit=1, it will not record an email view (used for displaying the image without triggering a GA hit)
 * The cid parameter will construct the anonymous ID for GA to link sessions together. It can be text or a number. An email address works - example: cid=mark.edmondson@example.com
@@ -38,13 +38,13 @@ http://your-appengine-id.appspot.com/landing-page?cid=blah&utm_source=source_me&
 
 ## Example URLs
 
-- Example Image URL with event data with cid=blah, virtual pageviews (p=1) and email_campaign for the open (recorded as an event label)
+- Example Image URL with cid=blah, virtual pageviews (p=1) and email_campaign for the open recorded as /vpv/email-view/email_campaign
 
 ```
 http://your-appengine-id.appspot.com/main.png?cid=blah&p=1&c=email_campaign
 ```
 
-- Example URL for links in the email for same user, cid=blah
+- Example URL for links within the email for same user, cid=blah
 
 ```
 http://your-appengine-id.appspot.com/landing-page?cid=blah + utm parameters
