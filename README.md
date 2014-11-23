@@ -3,6 +3,8 @@ Universal Analytics image to click tracking
 
 Call me a GET png with the correct parameters and you get a POST to your GA account.
 
+Intro blog post: http://markedmondson.me/e-mail-open-rate-tracking-with-google-analytics-measurement-protocol-demo
+
 Clone this project or see a demo live here: http://ua-post-to-push.appspot.com/ 
 
 This is a demo of how you can use Google Analytics to track opens of an email using an image that when loads, triggers a hit to GA, and then be able to link that image hit with a later session that clicks through to view and possibly convert.
