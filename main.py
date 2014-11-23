@@ -29,7 +29,7 @@ def getUniqueClientId(seed=''):
 
   if seed: random.seed(seed)
 
-  ## make this so its always unique by referring to a set
+  ## make this so its always unique by referring to a set or using md5 or something
   theID = str(random.randint(1,9999)).zfill(4) + "-" + str(random.randint(1,9999)).zfill(4) + "-" + str(random.randint(1,9999)).zfill(4) + "-" + str(random.randint(1,9999)).zfill(4)
   return theID
 
@@ -42,28 +42,15 @@ class Pixel(ndb.Model):
 ##################### Web handlers  ###################
 #######################################################
 
-class uploadPixel(webapp2.RequestHandler):
+class MainPage(webapp2.RequestHandler):
+    """Get a URL, POST a GA hit"""
 
-  """Upload an image """
-  def get(self):
-        upload_url = blobstore.create_upload_url('/upload-image2')
-        template_values = {'upload_url' : upload_url }
+    def get(self):
 
-        template = JINJA_ENVIRONMENT.get_template('upload-image.html')
+        template_values = {}
+
+        template = JINJA_ENVIRONMENT.get_template('main.html')
         self.response.write(template.render(template_values))
-
-class BlobStoreHandler(blobstore_handlers.BlobstoreUploadHandler):
-  """ get the image upload to datastore """
-  def post(self):
-        image   = self.get_uploads('img')
-        blob_info = image[0]
-        print blob_info
-
-        pixel = Pixel(id="image")
-        pixel.img = blob_info.key()
-        pixel.put()
-
-        self.redirect('/main.html')
 
 class LandingPage(webapp2.RequestHandler):
   """Example page where content is - utm parameters should be used plus cid which will link the impression and visit """
@@ -82,6 +69,7 @@ class LandingPage(webapp2.RequestHandler):
 
 class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
   """The image that is in the email, and has a unique ID attached to it"""
+  """This is called when the image is viewed, say in an email or another website"""
 
   def get(self):
         p      = cgi.escape(self.request.get('p'))
@@ -97,38 +85,38 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
 
         ## refer to https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
         values = {'v'   : 1,
-                  'tid' : 'UA-54019251-3',
+                  'tid' : 'UA-54019251-3', ## replace with your GA ID
                   'cid' : cid}
-        if p:
+        if p:  ## make a pageview when people see the image
           values['t']  = 'pageview'
           values['dh'] = 'external_email'
           values['ec'] = 'email'
           values['ea'] = 'open'
 
-        else:
+        else: ## else make an event
           values['t']  = 'event'
           values['ec'] = 'email'
           values['ea'] = 'open'
 
-        if c:
+        if c: ## put campaign info in the pageview
           values['el'] = c
           values['dp'] = '/vpv/email-view/' + c
-        else:
+        else: ## put campaign info in the event labels
           values['el'] = "campaign_name"
           values['dp'] = '/vpv/email-view'
         ### z is the cache buster
         values['z'] = str(random.randint(1,999999)).zfill(6)
 
-        if not nohit:
-          ### send the hit to Google
+        if not nohit: ## nohit=1 if you don't want to send hit to GA
+          ### send the hit to Google as a POST
           data = urllib.urlencode(values)
           req = urllib2.Request(ga_url_stem, data)
           response = urllib2.urlopen(req)
           the_page = response.read()
 
-        print values
+        print values  ## look in logs to see what was sent 
 
-        ### get the image upload previously done at /form.html and stored in datastore
+        ### get the image upload previously done at /upload-image.html and stored in datastore
         pixel = Pixel.get_by_id("image")
 
         ### serve up image
@@ -139,15 +127,27 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
           self.response.out.write("no image")
 
 
-class MainPage(webapp2.RequestHandler):
-    """Get a URL, POST a GA hit"""
+class uploadPixel(webapp2.RequestHandler):
+  """Upload an image handler used in the /upload-image form"""
+  def get(self):
+        upload_url = blobstore.create_upload_url('/upload-image2')
+        template_values = {'upload_url' : upload_url }
 
-    def get(self):
-
-        template_values = {}
-
-        template = JINJA_ENVIRONMENT.get_template('main.html')
+        template = JINJA_ENVIRONMENT.get_template('upload-image.html')
         self.response.write(template.render(template_values))
+
+class BlobStoreHandler(blobstore_handlers.BlobstoreUploadHandler):
+  """ get the image upload to datastore, called on submit of /upload-image form"""
+  def post(self):
+        image   = self.get_uploads('img')
+        blob_info = image[0]
+        print blob_info
+
+        pixel = Pixel(id="image")
+        pixel.img = blob_info.key()
+        pixel.put()
+
+        self.redirect('/main.html')
 
 
 application = ndb.toplevel(webapp2.WSGIApplication([
