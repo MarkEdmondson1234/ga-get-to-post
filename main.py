@@ -97,7 +97,7 @@ class ImageRequest(blobstore_handlers.BlobstoreDownloadHandler):
 
         ## refer to https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
         values = {'v'   : 1,
-                  'tid' : 'UA-51281463-1',
+                  'tid' : 'UA-54019251-3',
                   'cid' : cid}
         if p:
           values['t']  = 'pageview'
