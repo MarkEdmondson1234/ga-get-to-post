@@ -1,4 +1,3 @@
-import fix_path
 import urllib
 import urllib2
 
@@ -147,7 +146,7 @@ class BlobStoreHandler(blobstore_handlers.BlobstoreUploadHandler):
         pixel.img = blob_info.key()
         pixel.put()
 
-        self.redirect('/main.html')
+        self.redirect('/')
 
 
 application = ndb.toplevel(webapp2.WSGIApplication([
