@@ -24,18 +24,18 @@ Applications include email tracking and affiliate sales tracking.
 - Example Image URL with event data with cid=blah, virtual pageviews (p=1) and email_campaign for the open (recorded as an event label)
 
 ```
-/main.png?cid=blah&p=1&c=email_campaign
+http://your-appengine-id.appspot.com/main.png?cid=blah&p=1&c=email_campaign
 ```
 
 - Example URL for links in the email for same user, cid=blah
 
 ```
-/landing-page?cid=blah + utm parameters
+http://your-appengine-id.appspot.com/landing-page?cid=blah + utm parameters
 ```
 
 - Example full click URL with campaign parameters and cid
 
 ```
-/landing-page?cid=blah&utm_source=source_me&utm_medium=medium_me&utm_campaign=campaign_me
+http://your-appengine-id.appspot.com/landing-page?cid=blah&utm_source=source_me&utm_medium=medium_me&utm_campaign=campaign_me
 ```
 
